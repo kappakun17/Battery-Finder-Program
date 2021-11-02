@@ -1,0 +1,38 @@
+.full-width {
+    width:100%;
+}
+
+.title-text-size {
+    font-size:450%;
+}
+.title-background-color {
+    background-color: crimson;
+    /* background-color: #162C9a; */
+}
+
+.body-background-color {
+    background-color: papayawhip;
+}
+
+.choose-div-background-color-1 {
+    background-color:#FFD027;
+}
+.choose-div-background-color-2 {
+    background-color:#FFE483;
+}
+.choose-div-background-color-3 {
+    background-color:#FFF1C1;
+}
+
+.search-background-color {
+    background-color:cadetblue;
+}
+
+.icon-size {
+    font-size:130px;
+}
+
+
+.table-background-color {
+    background-color: lightgrey;
+}

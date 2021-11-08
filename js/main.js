@@ -1,3 +1,4 @@
+// battery Objects
 const battery =
     [{
         "batteryName": "WKL-78",
@@ -75,9 +76,61 @@ const battery =
         "voltage": 14.4,
         "maxDraw": 14,
         "endVoltage": 12,
-    }]
-;
+    }
+];
 
+// sorting of battery name
+battery.sort(function(a,b){
+    if(a.batteryName > b.batteryName) return 1;
+    else return -1;
+});
+
+// Battery Class
+class Battery {
+    constructor(batteryName,capacityAh,voltage,maxDraw,endVoltage){
+        this.batteryName = batteryName;
+        this.capacityAh = capacityAh;
+        this.voltage = voltage;
+        this.maxDraw = maxDraw;
+        this.endVoltage = endVoltage
+    }
+
+    maxWatt(){
+        return this.capacityAh * this.voltage;
+    }
+
+    endWatt(){
+        return this.endVoltage * this.maxDraw;
+    }
+    
+    maxUserHour(sumWatt){
+        return (this.maxWatt() / sumWatt).toFixed(1);
+    }
+
+    createBattElement(sumWatt){
+    
+        const battEleDiv = document.createElement('div');
+        battEleDiv.classList.add('w-100', 'bg-light', 'border', 'border-secondary', 'd-flex', 'flex-row', 'justify-content-between', 'align-items-center', 'px-3');
+        const battNameP = document.createElement('p');
+        battNameP.classList.add('pl-2','pr-2', 'pb-2', 'pt-2', 'm-0');
+        const battNameS = document.createElement('strong');
+        battNameS.innerHTML = this.batteryName;
+        battNameP.append(battNameS);
+        const battInfoP = document.createElement('p');
+        battInfoP.classList.add('pl-2', 'pb-2', 'pt-2', 'mt-0', 'mb-0', 'ml-2', 'mr-2');
+        battInfoP.innerHTML = 'Estimate ' + this.maxUserHour(sumWatt) + ' hours';
+        battEleDiv.append(battNameP, battInfoP);
+        return battEleDiv;
+    }
+}
+
+// Battery's instantiation
+const batteryObjects = [];
+battery.forEach( batt => {
+    batteryObjects.push(new Battery(batt['batteryName'], batt['capacityAh'], batt['voltage'], batt['maxDraw'], batt['endVoltage']));
+});
+
+// Camera Objects
 const camera =
     [{
         "brand": "Cakon",
@@ -153,124 +206,96 @@ const camera =
         "brand": "VANY",
         "model": "CEV 1900P",
         "powerConsumptionWh": 26,
-    }]
-;
+    }
+];
 
-// id-button
-const startButton = document.getElementById("start-button");
+// Camera class
+class Camera {
+    constructor(brand, model, powerConsumptionWh){
+        this.brand = brand;
+        this.model = model;
+        this.powerConsumptionWh = powerConsumptionWh;
+    }
 
-// id-pulldown id-input
-const pulldown_brand = document.getElementById("pulldown_brand");
-const pulldown_model = document.getElementById("pulldown_model");
-const input_battery = document.getElementById("input_battery")
+    createModelElement(brand, index){
+        const optionEle = document.createElement("option");
+        optionEle.value = index;
+        optionEle.innerHTML = this.model;
+        return this.brand === brand ? optionEle : null;
 
-// id-table list
-const tableList = document.getElementById("table-list")
+    }
+}
 
- 
-// main
 
-startButton.addEventListener("click",function(){
-    startButton.style = "display:none;"
-    pulldown_brand.style = ""
-})
-
-pulldown_brand.addEventListener("change",function(){
-    if(pulldown_brand.value === ""){
-        pulldown_model.style = "display:none;"
-        input_battery.style = "display:none;"
+// sorting of Camera's model name
+const cameraSort = camera.sort(function(a,b){
+    if(a.model > b.model){
+        return 1
     }else{
-        modelList = searchModel(pulldown_brand.value)
-        makePulldownModel(modelList)
-        pulldown_model.style = ""
-        input_battery.style = ""
+        return -1
     }
+});
 
-    
+// Camera's instantiation
+let cameraObjects = [];
+cameraSort.forEach(camera1 => {
+    cameraObjects.push(new Camera(camera1['brand'],camera1['model'],camera1['powerConsumptionWh']));
+});
+
+// create brand choices
+let brandsDic = {};
+camera.forEach( dict => {
+    brandsDic[dict['brand']] = 1;
+});
+
+const brands = Object.keys(brandsDic).sort();
+
+const pulldown_brand = document.getElementById("pulldown_brand");
+brands.forEach( brand => {
+    const optionEle = document.createElement('option');
+    optionEle.value = brand;
+    optionEle.innerHTML = brand;
+    pulldown_brand.append(optionEle)
 })
 
-input_battery.addEventListener("change",function(){
-    
-    let powerConsumptionWh = searchPowerConsumptionWh(pulldown_model.value);
-    let dataList = checkBattery(powerConsumptionWh);
-    let batteryObjList = dataList[0]
-    let batteryTimeList = dataList[1]
-    batteryViewList(batteryObjList,batteryTimeList)
-    
+// create initial model choices
+const pulldown_model = document.getElementById("pulldown_model");
+cameraObjects.forEach((cameraObj, index ) => {
+    pulldown_model.append(cameraObj.createModelElement(brands[0], index));
 })
 
-
-
-// function
-function searchModel(brand_value){
-    var modelList = []
-    for(let cameraData of camera){
-        console.log(cameraData.model)
-        if(brand_value === cameraData.brand){
-            modelList.push(cameraData.model)
-        }
-    }
-    return modelList
-}
-
-function searchPowerConsumptionWh(model_value){
-    let pcw = 0;
-    for(let cameraData of camera){
-        if(model_value === cameraData.model){
-            return pcw = cameraData.powerConsumptionWh
-        }
-    }
-
-}
-
-function makePulldownModel(modelList){
+// update model data if choose something brand 
+pulldown_brand.addEventListener('change', e => {
     pulldown_model.innerHTML = ""
-    for (let model of modelList){
-        const data = document.createElement("option")
-        data.innerHTML = model
-        data.value = model
-        pulldown_model.append(data)
-    }
-}
+    cameraObjects.forEach((cameraObj, index) => {
+        pulldown_model.append(cameraObj.createModelElement(e.target.value, index));
+    });
+    updateBattList();
+})
 
+// update battery list if update camera data
+pulldown_model.addEventListener('change', updateBattList);
 
-function checkBattery(pwc){
-    var batteryDataList = []
-    var takeTimeList = []
+// geting of input power consumption
+const input_battery = document.getElementById("input_battery");
+input_battery.addEventListener('change',updateBattList);
 
-    for(let batteryData of battery){
-        let bd = batteryData
-        let sumWh = bd.voltage * bd.capacityAh;
-        let takeTime = sumWh / pwc;
+// create initial battery list
+const batteryTopDiv = document.getElementById("battery-list")
+batteryObjects.forEach( battObj => {
+    batteryTopDiv.append(battObj.createBattElement(parseInt(input_battery.value) + cameraObjects[pulldown_model.value].powerConsumptionWh));
+});
 
-        let maxOutput = bd.maxDraw * bd.endVoltage
+var tableList = document.getElementById("battery-list");
 
-        if(maxOutput >= pwc){
-            batteryDataList.push(batteryData);
-            takeTimeList.push(takeTime);
-
+// it can updatte battery list if use updateBattListfunction
+function updateBattList(){
+    const sumWatt = parseInt(input_battery.value) + cameraObjects[pulldown_model.value].powerConsumptionWh;
+    batteryTopDiv.innerHTML = '';
+    batteryObjects.forEach(batt => {
+        if (batt.endWatt() > sumWatt){
+            batteryTopDiv.append(batt.createBattElement(sumWatt));
         }
-
-    }return [batteryDataList, takeTimeList]
-
+    });
 }
 
-function batteryViewList(batteryObjList, batteryTimeList){
-    tableList.innerHTML = ""
-
-    for (i=0; i < batteryObjList ; i++){
-        
-        
-        let table = `
-        <div class="d-flex justify-content-between table-background-color border border-dark">
-            <p class="m-3">${batteryObj[i].batteryName}</p>
-            <p class="m-3">${batteryTime[i]}</p>
-        </div>
-        `
-        tableList.append(table)
-
-
-    }
-    
-    
-}

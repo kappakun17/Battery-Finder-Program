@@ -41,12 +41,9 @@
                 </div>
                 <!-- choose data -->
                 <div class="col-12 d-flex justify-content-center align-content-center">
-                    <button id="start-button" class="btn btn-dark" style>choose Brand</button>
-                    <select name="brand" id="pulldown_brand" style="display: none;">
-                        <option value="">choose Brand</option>
-                        <option value="Cakon">Cakon</option>
-                        <option value="Go MN">Go MN</option>
-                        <option value="VANY">VANY</option>
+                    <!-- <button id="start-button" class="btn btn-dark" style>choose Brand</button> -->
+                    <select name="brand" id="pulldown_brand">
+    
                     </select>
                 </div>
 
@@ -66,7 +63,7 @@
                 </div>
                 <!-- choose data -->
                 <div class="col-12 d-flex  justify-content-center align-content-center">
-                    <select name="" id="pulldown_model" style="display:none;">
+                    <select name="models" id="pulldown_model">
                         
                     </select>
                 </div>
@@ -87,22 +84,15 @@
                 </div>
                 <!-- choose data -->
                 <div class="col-12 d-flex  justify-content-center align-content-center">
-                    <input type="number" style="display: none;" id="input_battery" name="tentacles"
+                    <input type="number" value="0" id="input_battery" name="tentacles"
         min="0" max="100">
                 </div>
             </div>
         </div>>
         
-        <!-- search -->
-        <div class="d-flex justify-content-center align-content-center pb-5">
-            <button class="btn btn-success">Search</button>
-        </div>
         <!-- result -->
-        <div id="table-list" class="container d-flex flex-column justify-content-center">
-            <!-- <div class="d-flex justify-content-between table-background-color border border-dark">
-                <p class="m-3">Result</p>
-                <p class="m-3">Test</p>
-            </div> -->
+        <div id="battery-list" class="container d-flex flex-column justify-content-center">
+            
 
         </div>
     </body>

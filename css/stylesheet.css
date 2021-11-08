@@ -7,7 +7,6 @@
 }
 .title-background-color {
     background-color: crimson;
-    /* background-color: #162C9a; */
 }
 
 .body-background-color {
@@ -29,10 +28,10 @@
 }
 
 .icon-size {
-    font-size:130px;
+    font-size:600%;
 }
 
 
 .table-background-color {
-    background-color: lightgrey;
+    background-color: white;
 }

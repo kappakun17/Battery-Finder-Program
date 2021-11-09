@@ -121,7 +121,7 @@ class Battery {
         battInfoP.innerHTML = 'Estimate ' + this.maxUserHour(sumWatt) + ' hours';
         battEleDiv.append(battNameP, battInfoP);
         return battEleDiv;
-    } 
+    }
 }
 
 // Battery's instantiation
@@ -287,7 +287,7 @@ var tableList = document.getElementById("battery-list");
 function updateBattList(){
     const sumWatt = parseInt(input_battery.value) + cameraObjects[pulldown_model.value].powerConsumptionWh;
     batteryTopDiv.innerHTML = '';
-    batteryObjects.forEach((batt) => {
+    batteryObjects.forEach(batt => {
         if (batt.endWatt() > sumWatt){
             batteryTopDiv.append(batt.createBattElement(sumWatt));
         }
@@ -295,6 +295,7 @@ function updateBattList(){
 }
 
 const startButton = document.getElementById("start-button");
+const batteryTopDiv = document.getElementById("battery-list");
 startButton.addEventListener('click',function(){
     startButton.style = "display:none;"
     pulldown_brand.style = "";
@@ -302,9 +303,8 @@ startButton.addEventListener('click',function(){
     input_battery.style = "";
 
     // create initial battery list
-    const batteryTopDiv = document.getElementById("battery-list")
     batteryObjects.forEach( battObj => {
         batteryTopDiv.append(battObj.createBattElement(parseInt(input_battery.value) + cameraObjects[pulldown_model.value].powerConsumptionWh));
-});
+    });
 
 })

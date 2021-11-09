@@ -121,7 +121,7 @@ class Battery {
         battInfoP.innerHTML = 'Estimate ' + this.maxUserHour(sumWatt) + ' hours';
         battEleDiv.append(battNameP, battInfoP);
         return battEleDiv;
-    }
+    } 
 }
 
 // Battery's instantiation
@@ -280,11 +280,6 @@ pulldown_model.addEventListener('change', updateBattList);
 const input_battery = document.getElementById("input_battery");
 input_battery.addEventListener('change',updateBattList);
 
-// create initial battery list
-const batteryTopDiv = document.getElementById("battery-list")
-batteryObjects.forEach( battObj => {
-    batteryTopDiv.append(battObj.createBattElement(parseInt(input_battery.value) + cameraObjects[pulldown_model.value].powerConsumptionWh));
-});
 
 var tableList = document.getElementById("battery-list");
 
@@ -292,10 +287,24 @@ var tableList = document.getElementById("battery-list");
 function updateBattList(){
     const sumWatt = parseInt(input_battery.value) + cameraObjects[pulldown_model.value].powerConsumptionWh;
     batteryTopDiv.innerHTML = '';
-    batteryObjects.forEach(batt => {
+    batteryObjects.forEach((batt) => {
         if (batt.endWatt() > sumWatt){
             batteryTopDiv.append(batt.createBattElement(sumWatt));
         }
     });
 }
 
+const startButton = document.getElementById("start-button");
+startButton.addEventListener('click',function(){
+    startButton.style = "display:none;"
+    pulldown_brand.style = "";
+    pulldown_model.style = "";
+    input_battery.style = "";
+
+    // create initial battery list
+    const batteryTopDiv = document.getElementById("battery-list")
+    batteryObjects.forEach( battObj => {
+        batteryTopDiv.append(battObj.createBattElement(parseInt(input_battery.value) + cameraObjects[pulldown_model.value].powerConsumptionWh));
+});
+
+})

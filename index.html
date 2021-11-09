@@ -25,7 +25,7 @@
         </div>
 
         <!-- body -->
-        <div class="d-flex flex-wrap justify-content-md-center align-content-md-center mt-5 pb-5">
+        <div id="stepDiv" class="d-flex flex-wrap justify-content-md-center align-content-md-center mt-5 pb-5" style="display: none;">
             <div class="col-12 col-md-2 d-flex flex-wrap p-5 rounded-start choose-div-background-color-2 ">
                 <!-- step -->
                 <div class="col-12 d-flex justify-content-center align-content-center">
@@ -41,8 +41,7 @@
                 </div>
                 <!-- choose data -->
                 <div class="col-12 d-flex justify-content-center align-content-center">
-                    <!-- <button id="start-button" class="btn btn-dark" style>choose Brand</button> -->
-                    <select name="brand" id="pulldown_brand">
+                    <select name="brand" id="pulldown_brand" style="display: none;">
     
                     </select>
                 </div>
@@ -63,7 +62,7 @@
                 </div>
                 <!-- choose data -->
                 <div class="col-12 d-flex  justify-content-center align-content-center">
-                    <select name="models" id="pulldown_model">
+                    <select name="models" id="pulldown_model" style="display: none;">
                         
                     </select>
                 </div>
@@ -85,11 +84,14 @@
                 <!-- choose data -->
                 <div class="col-12 d-flex  justify-content-center align-content-center">
                     <input type="number" value="0" id="input_battery" name="tentacles"
-        min="0" max="100">
+        min="0" max="100" style="display: none;">
                 </div>
             </div>
         </div>>
-        
+        <!-- start button -->
+        <div class="d-flex justify-content-center align-content-center">
+            <button id="start-button" class="btn btn-dark" style>choose Brand</button>
+        </div>
         <!-- result -->
         <div id="battery-list" class="container d-flex flex-column justify-content-center">
             
